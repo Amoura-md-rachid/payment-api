@@ -1,0 +1,21 @@
+package com.amoura.payments.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Entity
+@AllArgsConstructor @NoArgsConstructor @Getter @Setter @ToString @Builder
+public class Payment {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private LocalDate date;
+    private double amount;
+    private PaymentType type;
+    private PaymentSatuts satuts;
+    private String file;
+    @ManyToOne
+    private Student student;
+}
