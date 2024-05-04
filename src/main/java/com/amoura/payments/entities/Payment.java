@@ -14,7 +14,7 @@ public class Payment {
     private LocalDate date;
     private double amount;
     private PaymentType type;
-    private PaymentSatuts satuts;
+    private PaymentStatus status;
     private String file;
     @ManyToOne
     private Student student;

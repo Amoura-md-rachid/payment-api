@@ -1,7 +1,7 @@
 package com.amoura.payments.service;
 
 import com.amoura.payments.entities.Payment;
-import com.amoura.payments.entities.PaymentSatuts;
+import com.amoura.payments.entities.PaymentStatus;
 import com.amoura.payments.entities.PaymentType;
 import com.amoura.payments.entities.Student;
 import com.amoura.payments.repository.PaymentsRepository;
@@ -41,8 +41,8 @@ public class PaymentService {
         return paymentsRepository.findByStudentCode(code);
     }
 
-    public List<Payment> getPaymentsByStatus(PaymentSatuts status) {
-        return paymentsRepository.findBySatuts(status);
+    public List<Payment> getPaymentsByStatus(PaymentStatus status) {
+        return paymentsRepository.findByStatus(status);
     }
 
     public List<Payment> getPaymentsByType(PaymentType type) {
@@ -61,23 +61,23 @@ public class PaymentService {
         return studentRepository.findByProgramId(programId);
     }
 
-    public Payment updatePaymentStatus(PaymentSatuts status, Long id) {
+    public Payment updatePaymentStatus(PaymentStatus status, Long id) {
         Payment payment = paymentsRepository.findById(id).orElse(null);
         if (payment != null) {
-            payment.setSatuts(status);
+            payment.setStatus(status);
             return paymentsRepository.save(payment);
         }
         return null;
     }
 
     public Payment savePayment(MultipartFile file, LocalDate date, double amount, PaymentType type, String studentCode) throws IOException {
-        Path folderPath = Paths.get(System.getProperty("user.home"), "enset-data", "payments");
+        Path folderPath = Paths.get(System.getProperty("user.home"), "payment-data", "payments");
         if (!Files.exists(folderPath)) {
             Files.createDirectories(folderPath);
         }
 
         String fileName = UUID.randomUUID().toString();
-        Path filePath = Paths.get(System.getProperty("user.home"), "enset-data", "payments", fileName + ".pdf");
+        Path filePath = Paths.get(System.getProperty("user.home"), "payment-data", "payments", fileName + ".pdf");
         Files.copy(file.getInputStream(), filePath);
 
         Student student = studentRepository.findByCode(studentCode);
@@ -86,7 +86,7 @@ public class PaymentService {
                 .amount(amount)
                 .type(type)
                 .student(student)
-                .satuts(PaymentSatuts.CREATED)
+                .status(PaymentStatus.CREATED)
                 .file(filePath.toUri().toString())
                 .build();
 

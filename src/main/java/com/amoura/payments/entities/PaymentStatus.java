@@ -1,6 +1,6 @@
 package com.amoura.payments.entities;
 
-public enum PaymentSatuts {
+public enum PaymentStatus {
 
     CREATED, VALIDATED, REJECTED
 }

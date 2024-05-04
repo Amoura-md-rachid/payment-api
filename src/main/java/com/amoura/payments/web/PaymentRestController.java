@@ -1,7 +1,7 @@
 package com.amoura.payments.web;
 
 import com.amoura.payments.entities.Payment;
-import com.amoura.payments.entities.PaymentSatuts;
+import com.amoura.payments.entities.PaymentStatus;
 import com.amoura.payments.entities.PaymentType;
 import com.amoura.payments.entities.Student;
 import com.amoura.payments.service.PaymentService;
@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class PaymentRestController {
 
     private final PaymentService paymentService;
@@ -38,7 +39,7 @@ public class PaymentRestController {
     }
 
     @GetMapping(path = "/payments/byStatus")
-    public List<Payment> paymentsByStatus(@RequestParam PaymentSatuts status) {
+    public List<Payment> paymentsByStatus(@RequestParam PaymentStatus status) {
         return paymentService.getPaymentsByStatus(status);
     }
 
@@ -63,7 +64,7 @@ public class PaymentRestController {
     }
 
     @PutMapping("/payments/{id}")
-    public Payment updatePaymentStatus(@RequestParam PaymentSatuts status, @PathVariable Long id) {
+    public Payment updatePaymentStatus(@RequestParam PaymentStatus status, @PathVariable Long id) {
         return paymentService.updatePaymentStatus(status, id);
     }
 
